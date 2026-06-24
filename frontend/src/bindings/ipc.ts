@@ -139,3 +139,16 @@ export const onSchedulerFired = (
   handler: (payload: { task_id: string; message: string }) => void,
 ): Promise<UnlistenFn> =>
   listen<{ task_id: string; message: string }>('scheduler:fired', (e) => handler(e.payload));
+
+// === File upload ===
+export interface FileContent {
+  filename: string;
+  path: string;
+  content: string;
+  size: number;
+  is_binary: boolean;
+  language: string;
+}
+
+export const readFileForChat = (path: string): Promise<FileContent> =>
+  invoke<FileContent>('read_file_for_chat', { path });

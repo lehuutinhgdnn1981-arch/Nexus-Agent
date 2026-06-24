@@ -5,6 +5,7 @@ pub mod browser;
 pub mod chat;
 pub mod config;
 pub mod custom_provider;
+pub mod file_upload;
 pub mod memory;
 pub mod palette;
 pub mod scheduler;

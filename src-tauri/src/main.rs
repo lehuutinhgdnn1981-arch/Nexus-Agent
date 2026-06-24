@@ -116,6 +116,7 @@ fn main() {
             nexus::commands::custom_provider::custom_provider_preset,
             // command palette
             nexus::commands::palette::palette_search,
+            nexus::commands::file_upload::read_file_for_chat,
         ])
         .setup(|app| {
             tracing::info!("NEXUS v{} started", nexus::VERSION);
