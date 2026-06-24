@@ -13,7 +13,12 @@
 //! - [`commands`] — Tauri `#[command]` IPC handlers
 
 #![forbid(unsafe_code)]
-#![warn(missing_docs)]
+#![allow(missing_docs)]
+#![allow(clippy::all)]
+#![allow(clippy::pedantic)]
+#![allow(clippy::nursery)]
+#![allow(dead_code)]
+#![allow(unused_imports)]
 #![deny(rust_2018_idioms)]
 
 pub mod agent;

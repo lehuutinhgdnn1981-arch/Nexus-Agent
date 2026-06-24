@@ -4,4 +4,4 @@ pub mod manager;
 pub mod page;
 
 pub use manager::BrowserManager;
-pub use page::{PageAction, PageError, PageResult};
+pub use page::{execute, PageAction, PageResult};

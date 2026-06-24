@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
 use crate::llm::types::Usage;
-use crate::tools::tool::{ToolCall, ToolResult};
+use crate::tools::tool::ToolResult;
 
 /// Event từ agent loop, gửi tới frontend qua IPC.
 #[derive(Clone, Debug, Serialize, Deserialize, TS)]

@@ -18,7 +18,7 @@ use uuid::Uuid;
 
 use crate::error::SecurityError;
 use crate::security::PermissionLevel;
-use crate::Result;
+use crate::error::Result;
 
 /// Quyết định của user.
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Serialize, Deserialize, TS)]
@@ -33,6 +33,8 @@ pub enum ApprovalDecision {
 pub struct ApprovalRequest {
     pub id: String,
     pub tool: String,
+    #[ts(type = "any")]
+
     pub input: serde_json::Value,
     pub permission: PermissionLevel,
     pub session_id: Option<String>,

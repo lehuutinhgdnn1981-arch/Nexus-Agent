@@ -56,7 +56,7 @@ pub async fn chat_send(
         .map_err(IpcError::from)?;
 
     let mut rt_config = AgentRuntimeConfig::default();
-    rt_config.default_provider = provider_name;
+    rt_config.default_provider = provider_name.clone();
     rt_config.default_model = model.clone();
     rt_config.max_iterations = state.config.agent.max_iterations;
     rt_config.max_tool_calls = state.config.agent.max_tool_calls;

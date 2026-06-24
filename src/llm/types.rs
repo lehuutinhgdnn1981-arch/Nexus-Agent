@@ -44,13 +44,13 @@ pub struct ChatMessage {
     pub role: MessageRole,
     pub content: String,
     /// Chỉ có khi role = Assistant và LLM request tool calls.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub tool_calls: Option<Vec<ToolCall>>,
     /// Chỉ có khi role = Tool — ID của tool call mà message này là kết quả.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub tool_call_id: Option<String>,
     /// Tên tool (chỉ khi role = Tool).
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
     pub name: Option<String>,
 }
 

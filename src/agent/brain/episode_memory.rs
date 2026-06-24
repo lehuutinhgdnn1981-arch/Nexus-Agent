@@ -9,7 +9,7 @@ use std::sync::Arc;
 
 use serde::{Deserialize, Serialize};
 use sqlx::SqlitePool;
-use tracing::{debug, info, warn};
+use tracing::{debug, info};
 
 use crate::error::Result;
 use crate::llm::provider::LLMProvider;

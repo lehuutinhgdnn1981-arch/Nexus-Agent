@@ -64,7 +64,6 @@ pub async fn custom_provider_add(
         .patch(|cfg| {
             cfg.llm.custom.insert(id.clone(), input.config.clone());
         })
-        .await
         .map_err(IpcError::from)?;
 
     // Update in-memory state
@@ -88,7 +87,6 @@ pub async fn custom_provider_remove(
         .patch(|cfg| {
             cfg.llm.custom.remove(&id);
         })
-        .await
         .map_err(IpcError::from)?;
 
     let _ = state;

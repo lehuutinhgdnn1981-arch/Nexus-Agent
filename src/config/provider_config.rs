@@ -2,7 +2,7 @@
 
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ProviderConfig {
     /// API key. Nếu None, sẽ thử đọc từ env var `<PROVIDER>_API_KEY`.
     #[serde(default)]

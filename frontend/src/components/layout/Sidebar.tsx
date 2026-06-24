@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useSessionStore } from '@store/sessionStore';
 import { Button, Input } from '@components/ui';
-import { SessionList } from './SessionList';
-import { NewSessionButton } from './NewSessionButton';
-import { SessionSearch } from './SessionSearch';
+import { SessionList } from '../sidebar/SessionList';
+import { NewSessionButton } from '../sidebar/NewSessionButton';
+import { SessionSearch } from '../sidebar/SessionSearch';
 import clsx from 'clsx';
 
 interface SidebarProps {
@@ -58,5 +58,4 @@ export function Sidebar({ className }: SidebarProps) {
 }
 
 // Re-export for convenience
-export { Sidebar };
 export default Sidebar;

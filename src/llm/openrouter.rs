@@ -12,7 +12,6 @@ use tokio::sync::mpsc;
 use crate::error::LlmError;
 use crate::llm::openai::OpenAIProvider;
 use crate::llm::provider::LLMProvider;
-use crate::llm::streaming::SseParser;
 use crate::llm::types::{
     ChatMessage, ChatRequest, ChatResponse, ChatStreamChunk, MessageRole, ToolCall,
     ToolCallFunction, Usage,

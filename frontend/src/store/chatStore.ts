@@ -64,7 +64,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
     try {
       await ipc.chatSend({ session_id: sessionId, message, provider, model });
     } catch (e) {
-      set({ isStreaming: false, error: String(e) });
+      set({ isStreaming: false, error: e instanceof Error ? e.message : JSON.stringify(e) });
     }
   },
 
@@ -74,7 +74,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
       try {
         await ipc.chatCancel(runId);
       } catch (e) {
-        set({ error: String(e) });
+        set({ error: e instanceof Error ? e.message : JSON.stringify(e) });
       }
     }
     set({ isStreaming: false, activeRunId: null });

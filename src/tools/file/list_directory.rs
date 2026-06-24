@@ -4,7 +4,7 @@ use async_trait::async_trait;
 use serde_json::json;
 use std::fs;
 
-use crate::error::{NexusError, Result};
+use crate::error::Result;
 use crate::security::permission::PermissionLevel;
 use crate::tools::context::ToolContext;
 use crate::tools::tool::{Tool, ToolResult};

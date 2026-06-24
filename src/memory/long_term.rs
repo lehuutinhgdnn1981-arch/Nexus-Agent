@@ -104,6 +104,7 @@ impl LongTermMemory {
             .filter(|row| {
                 query
                     .category
+                    .as_ref()
                     .map(|c| row.category == c.as_str())
                     .unwrap_or(true)
             })
@@ -127,7 +128,7 @@ impl LongTermMemory {
 
         Ok(scored
             .into_iter()
-            .map(|(sim, row)| MemoryEntry {
+            .map(|(_sim, row)| MemoryEntry {
                 id: row.id,
                 content: row.content,
                 category: MemoryCategory::from_str(&row.category),

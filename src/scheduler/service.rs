@@ -123,7 +123,7 @@ impl SchedulerService {
     /// Shutdown scheduler.
     pub async fn shutdown(&self) -> Result<()> {
         let mut guard = self.scheduler.lock().await;
-        if let Some(sched) = guard.take() {
+        if let Some(mut sched) = guard.take() {
             sched
                 .shutdown()
                 .await
@@ -165,7 +165,6 @@ impl SchedulerService {
                         }
                     })
                 })
-                .await
                 .map_err(|e| SchedulerError::Internal(format!("add one-shot job: {e}")))?;
                 sched
                     .add(job)
@@ -190,7 +189,6 @@ impl SchedulerService {
                         }
                     })
                 })
-                .await
                 .map_err(|e| SchedulerError::InvalidCron(format!("cron `{cron}`: {e}")))?;
                 sched
                     .add(job)

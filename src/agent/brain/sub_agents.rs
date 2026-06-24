@@ -10,14 +10,7 @@
 //! Agent chính có thể "handoff" sang sub-agent khi task yêu cầu chuyên môn cụ thể.
 //! Sub-agent chạy với context riêng, trả kết quả về cho agent chính.
 
-use std::sync::Arc;
-
 use serde::{Deserialize, Serialize};
-use tracing::{info, warn};
-
-use crate::error::Result;
-use crate::llm::provider::LLMProvider;
-use crate::llm::types::{ChatMessage, ChatRequest, MessageRole};
 use crate::tools::registry::ToolRegistry;
 use crate::tools::schema::ToolSchema;
 

@@ -70,7 +70,7 @@ fn main() {
 
     // 8. Launch Tauri
     tauri::Builder::default()
-        .manage(state)
+        .manage(state.clone())
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_dialog::init())

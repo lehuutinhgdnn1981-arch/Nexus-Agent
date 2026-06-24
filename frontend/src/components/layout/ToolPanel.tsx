@@ -1,5 +1,5 @@
 import { useToolStore, type ToolActivityItem } from '@store/toolStore';
-import { ToolTimelineItem } from './ToolTimelineItem';
+import { ToolTimelineItem } from '../tools/ToolTimelineItem';
 import { ScrollArea, Badge } from '@components/ui';
 import clsx from 'clsx';
 

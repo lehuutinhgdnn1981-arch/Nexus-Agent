@@ -23,7 +23,7 @@ export const useConfigStore = create<ConfigState>((set) => ({
       const config = await ipc.configGet();
       set({ config, loading: false });
     } catch (e) {
-      set({ loading: false, error: String(e) });
+      set({ loading: false, error: e instanceof Error ? e.message : JSON.stringify(e) });
     }
   },
 
@@ -32,7 +32,7 @@ export const useConfigStore = create<ConfigState>((set) => ({
       const config = await ipc.configSet(patch);
       set({ config });
     } catch (e) {
-      set({ error: String(e) });
+      set({ error: e instanceof Error ? e.message : JSON.stringify(e) });
     }
   },
 

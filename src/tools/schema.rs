@@ -8,6 +8,8 @@ pub struct ToolSchema {
     pub name: String,
     pub description: String,
     /// JSON Schema for parameters (object type).
+    #[ts(type = "any")]
+
     pub parameters: serde_json::Value,
 }
 

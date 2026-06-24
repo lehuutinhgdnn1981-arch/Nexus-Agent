@@ -24,7 +24,7 @@ export const useSchedulerStore = create<SchedulerState>((set) => ({
       const jobs = await ipc.schedulerList();
       set({ jobs, loading: false });
     } catch (e) {
-      set({ loading: false, error: String(e) });
+      set({ loading: false, error: e instanceof Error ? e.message : JSON.stringify(e) });
     }
   },
 
@@ -35,7 +35,7 @@ export const useSchedulerStore = create<SchedulerState>((set) => ({
       set({ jobs });
       return id;
     } catch (e) {
-      set({ error: String(e) });
+      set({ error: e instanceof Error ? e.message : JSON.stringify(e) });
       throw e;
     }
   },
@@ -46,7 +46,7 @@ export const useSchedulerStore = create<SchedulerState>((set) => ({
       const jobs = await ipc.schedulerList();
       set({ jobs });
     } catch (e) {
-      set({ error: String(e) });
+      set({ error: e instanceof Error ? e.message : JSON.stringify(e) });
     }
   },
 

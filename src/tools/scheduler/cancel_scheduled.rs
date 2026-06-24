@@ -28,7 +28,7 @@ impl Tool for CancelScheduledTool {
     async fn execute(&self, ctx: &ToolContext, input: serde_json::Value) -> Result<ToolResult> {
         let id = input.get("id").and_then(|v| v.as_str())
             .ok_or_else(|| NexusError::InvalidArgument("missing `id`".into()))?;
-        ctx.scheduler.cancel(id).await?;
+        ctx.scheduler.cancel(&id.to_string()).await?;
         Ok(ToolResult::ok("", self.name(), format!("cancelled job {id}")))
     }
 }

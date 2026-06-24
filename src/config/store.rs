@@ -28,13 +28,13 @@ impl ConfigStore {
     /// Load config từ file (file phải tồn tại).
     pub fn load(&self) -> Result<AppConfig> {
         let content = std::fs::read_to_string(&self.path)?;
-        let cfg: AppConfig = toml::from_str(&content)?;
+        let cfg: AppConfig = toml::from_str(&content).map_err(crate::error::ConfigError::from)?;
         Ok(cfg)
     }
 
     /// Save config vào file (atomic: ghi vào temp rồi rename).
     pub fn save(&self, cfg: &AppConfig) -> Result<()> {
-        let content = toml::to_string_pretty(cfg)?;
+        let content = toml::to_string_pretty(cfg).map_err(crate::error::ConfigError::from)?;
         let parent = self
             .path
             .parent()

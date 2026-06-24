@@ -35,7 +35,9 @@ pub struct ToolResult {
     pub ok: bool,
     pub output: String,
     /// Optional structured data (JSON string).
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
+    #[ts(type = "any")]
+
     pub data: Option<serde_json::Value>,
     /// Execution duration in millis.
     #[serde(default)]

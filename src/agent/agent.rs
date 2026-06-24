@@ -25,7 +25,8 @@ use crate::llm::provider::LLMProvider;
 use crate::llm::types::{ChatMessage, ChatRequest, ChatStreamChunk};
 use crate::security::approval::{ApprovalDecision, ApprovalGate, ApprovalRequest};
 use crate::state::AppState;
-use crate::tools::tool::{ToolCall, ToolResult};
+use crate::llm::types::ToolCall;
+use crate::tools::tool::ToolResult;
 
 /// Agent — stateless per turn, but holds references to shared state.
 ///

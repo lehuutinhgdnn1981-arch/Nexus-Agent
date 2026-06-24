@@ -9,7 +9,7 @@
 //!   - "every weekday 8:30am"
 //!   - "every hour"
 
-use chrono::{DateTime, Datelike, Duration, Local, NaiveTime, TimeZone, Utc, Weekday};
+use chrono::{Datelike, Duration, Local, NaiveTime, TimeZone, Timelike, Utc, Weekday};
 
 use crate::error::{Result, SchedulerError};
 use crate::scheduler::job::JobKind;

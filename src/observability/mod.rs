@@ -9,7 +9,7 @@ use tracing_subscriber::{fmt, prelude::*, EnvFilter};
 ///   - rolling daily file appender tại DEBUG level (persistent log)
 ///
 /// Log file nằm ở `<log_dir>/app.log` (rotation daily, suffix `YYYY-MM-DD`).
-pub fn init<P: AsRef<Path>>(log_dir: P) -> Result<(), tracing_subscriber::Error> {
+pub fn init<P: AsRef<Path>>(log_dir: P) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     let log_dir = log_dir.as_ref();
     std::fs::create_dir_all(log_dir).ok();
 
@@ -40,16 +40,16 @@ pub fn init<P: AsRef<Path>>(log_dir: P) -> Result<(), tracing_subscriber::Error>
         .with(env_filter)
         .with(stdout_layer)
         .with(file_layer)
-        .try_init()
+        .try_init().map_err(|e| Box::new(e) as Box<dyn std::error::Error + Send + Sync>)
 }
 
 /// Khởi tạo tracing subscriber chỉ với stdout (dùng cho test / CLI example).
-pub fn init_stdout() -> Result<(), tracing_subscriber::Error> {
+pub fn init_stdout() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     let env_filter = EnvFilter::try_from_default_env()
         .unwrap_or_else(|_| EnvFilter::new("nexus=debug"));
 
     tracing_subscriber::registry()
         .with(env_filter)
         .with(fmt::layer().compact())
-        .try_init()
+        .try_init().map_err(|e| Box::new(e) as Box<dyn std::error::Error + Send + Sync>)
 }

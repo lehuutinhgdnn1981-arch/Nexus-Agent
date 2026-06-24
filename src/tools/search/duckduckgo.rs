@@ -98,7 +98,7 @@ fn decode_ddg_url(raw: &str) -> String {
         let end = after.find('&').unwrap_or(after.len());
         let encoded = &after[..end];
         if let Ok(decoded) = urlencoding::decode(encoded) {
-            return decoded.into_owned();
+            return decoded.to_string();
         }
     }
     raw.to_string()

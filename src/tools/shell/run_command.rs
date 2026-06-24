@@ -124,7 +124,8 @@ impl Tool for RunCommandTool {
         CommandLogRepo::insert(&ctx.pool, &log_row).await?;
 
         // Spawn
-        let mut child = cmd.spawn()?;
+        let child = cmd.spawn()?;
+        let _pid = child.id();
 
         // wait_with_output với timeout
         let wait_fut = child.wait_with_output();
@@ -136,7 +137,7 @@ impl Tool for RunCommandTool {
             }
             Err(_) => {
                 // Kill child on timeout
-                let _ = child.start_kill();
+                // child moved into wait_with_output
                 CommandLogRepo::update_result(&ctx.pool, &log_id, "timeout", None, None, Some("timeout")).await?;
                 return Ok(ToolResult::error("", self.name(), format!("timeout after {}", format_duration(Duration::from_secs(timeout_secs)))));
             }

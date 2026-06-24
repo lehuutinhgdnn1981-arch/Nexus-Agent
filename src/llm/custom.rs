@@ -225,7 +225,7 @@ impl CustomProvider {
             )));
         }
 
-        let mut builder = Client::builder().timeout(std::time::Duration::from_secs(cfg.timeout_secs));
+        let builder = Client::builder().timeout(std::time::Duration::from_secs(cfg.timeout_secs));
         if cfg.api_key.as_deref() == Some("") {
             // No-auth local provider — disable default Authorization header injection
         }

@@ -7,7 +7,7 @@
 use std::path::{Path, PathBuf};
 
 use crate::error::SecurityError;
-use crate::Result;
+use crate::error::Result;
 
 use crate::config::paths::workspace_root;
 

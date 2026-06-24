@@ -1,8 +1,6 @@
 //! Session IPC commands.
 
 use serde::{Deserialize, Serialize};
-use tauri::State;
-
 use crate::database::repositories::session_repo::{SessionRepo, SessionRow};
 
 use super::{AppStateRef, IpcError, IpcResult};
