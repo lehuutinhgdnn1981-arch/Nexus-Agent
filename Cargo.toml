@@ -1,0 +1,170 @@
+# =============================================================================
+#  NEXUS — Cargo Workspace Root
+# =============================================================================
+#  Workspace chứa 2 crate:
+#    - nexus       (lib crate, src/)         : toàn bộ logic core
+#    - nexus-app   (binary crate, src-tauri/): Tauri v2 entrypoint
+#
+#  Tất cả dependency dùng chung khai báo ở [workspace.dependencies] để pin
+#  version nhất quán, các crate con chỉ cần `dep.workspace = true`.
+# =============================================================================
+
+[workspace]
+resolver = "2"
+members  = [
+    "src",         # lib crate `nexus`    (toàn bộ logic core)
+    "src-tauri",   # binary crate `nexus-app` (Tauri v2 entrypoint)
+]
+
+[workspace.package]
+version       = "0.2.0"
+edition       = "2021"
+rust-version  = "1.88"
+authors       = ["NEXUS Team"]
+license       = "MIT"
+repository    = "https://github.com/lehuutinhgdnn1981-arch/Nexus-Agent"
+description   = "Production-grade desktop AI Agent"
+readme        = "README.md"
+
+# -----------------------------------------------------------------------------
+#  Shared dependencies — pin version, mọi crate con dùng `.workspace = true`
+# -----------------------------------------------------------------------------
+[workspace.dependencies]
+# === Async runtime ===
+tokio        = { version = "1.40", features = ["full"] }
+tokio-util   = { version = "0.7",  features = ["rt"] }
+tokio-stream = { version = "0.1",  features = ["sync"] }
+futures      = { version = "0.3" }
+async-trait  = { version = "0.1" }
+
+# === Web / HTTP ===
+reqwest      = { version = "0.12", features = ["json", "stream", "rustls-tls"], default-features = false }
+reqwest-eventsource = { version = "0.6" }
+url          = { version = "2.5" }
+
+# === Tauri v2 ===
+tauri        = { version = "2.0" }
+tauri-plugin-shell    = { version = "2.0" }
+tauri-plugin-fs       = { version = "2.0" }
+tauri-plugin-dialog   = { version = "2.0" }
+tauri-plugin-os       = { version = "2.0" }
+tauri-plugin-process  = { version = "2.0" }
+tauri-build           = { version = "2.0" }
+tauri-plugin-store    = { version = "2.0" }
+
+# === Database ===
+sqlx         = { version = "0.8",  features = ["runtime-tokio-rustls", "sqlite", "macros", "migrate", "chrono", "uuid"] }
+
+# === Serialization ===
+serde        = { version = "1.0",  features = ["derive"] }
+serde_json   = { version = "1.0" }
+toml         = { version = "0.8" }
+
+# === Error handling ===
+thiserror    = { version = "2.0" }
+anyhow       = { version = "1.0" }
+
+# === Logging / tracing ===
+tracing      = { version = "0.1" }
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt", "json", "time"] }
+tracing-appender   = { version = "0.2" }
+
+# === Time / Date ===
+chrono       = { version = "0.4",  features = ["serde"] }
+
+# === UUID ===
+uuid         = { version = "1.10", features = ["v4", "serde"] }
+
+# === Concurrency primitives ===
+dashmap      = { version = "6.1" }
+parking_lot  = { version = "0.12" }
+once_cell    = { version = "1.20" }
+
+# === Misc utils ===
+bytes        = { version = "1.7" }
+base64       = { version = "0.22" }
+hex          = { version = "0.4" }
+sha2         = { version = "0.10" }
+regex        = { version = "1.10" }
+glob         = { version = "0.3" }
+walkdir      = { version = "2.5" }
+which        = { version = "7.0" }
+dirs         = { version = "5.0" }
+directories  = { version = "5.0" }
+tempfile     = { version = "3.12" }
+humantime    = { version = "2.1" }
+indexmap     = { version = "2.4" }
+
+# === Browser automation (CDP) ===
+chromiumoxide = { version = "0.7", default-features = false, features = ["tokio-runtime"] }
+
+# === Scheduler ===
+tokio-cron-scheduler = { version = "0.13" }
+
+# === TypeScript bindings export ===
+ts-rs        = { version = "10",  features = ["chrono"] }
+
+# === Testing ===
+mockall      = { version = "0.13" }
+pretty_assertions = { version = "1.4" }
+proptest     = { version = "1.5" }
+criterion    = { version = "0.5",  features = ["html_reports"] }
+
+# === Examples ===
+clap         = { version = "4.5",  features = ["derive"] }
+# anyhow already declared above — reused for examples
+
+# =============================================================================
+#  Workspace-level lint policy
+# =============================================================================
+[workspace.lints.rust]
+unsafe_code        = "deny"
+missing_docs       = "warn"
+unused_must_use    = "deny"
+rust_2018_idioms   = { level = "deny", priority = -1 }
+
+[workspace.lints.clippy]
+all                 = { level = "deny",  priority = -1 }
+pedantic            = { level = "warn",  priority = -1 }
+nursery             = { level = "warn",  priority = -1 }
+unwrap_used         = "deny"
+expect_used         = "deny"
+panic               = "deny"
+todo                = "warn"
+dbg_macro           = "deny"
+print_stdout        = "warn"
+print_stderr        = "warn"
+cognitive_complexity = { level = "warn", priority = -1 }
+
+# =============================================================================
+#  Release profile — tối ưu size + tốc độ startup
+# =============================================================================
+[profile.release]
+opt-level        = 3
+lto              = "fat"
+codegen-units    = 1
+strip            = "symbols"
+panic            = "abort"
+incremental      = false
+
+[profile.release.package."*"]
+opt-level = 3
+
+# Dev profile — build nhanh, debug tốt
+[profile.dev]
+opt-level        = 0
+debug            = true
+incremental      = true
+split-debuginfo  = "unpacked"
+
+# Test profile — nhanh vừa đủ
+[profile.test]
+opt-level        = 1
+debug            = true
+incremental      = true
+
+# Bench profile
+[profile.bench]
+opt-level        = 3
+debug            = false
+lto              = "thin"

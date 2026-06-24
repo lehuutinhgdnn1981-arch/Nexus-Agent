@@ -1,0 +1,25 @@
+[default-config]
+# Coverage report config for cargo-tarpaulin
+# Run: cargo tarpaulin --workspace --out Html --output-dir coverage/
+
+# Skip front-end code (no Rust there)
+exclude-files = ["frontend/*", "src-tauri/target/*", "*/target/*"]
+
+# Minimum coverage threshold (warn only — not enforce)
+# We aim for ≥80% on core modules
+fail-under = 0
+
+# Include tests in coverage
+include-tests = false
+
+# Skip browser smoke tests (require Chromium)
+exclude = ["tests/browser_smoke.rs"]
+
+# Timeout (seconds) per test
+timeout = 120
+
+# Don't run doctests (we have non-runnable examples in doc comments)
+doc = false
+
+# Verbose output
+verbose = true

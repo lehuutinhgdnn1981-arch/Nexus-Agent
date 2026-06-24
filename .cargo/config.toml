@@ -1,0 +1,20 @@
+# Cấu hình Cargo cho workspace NEXUS
+
+[build]
+# Build song song, tăng tốc compile
+jobs = 8
+
+[env]
+# Mặc định log level (có thể override qua RUST_LOG=debug)
+RUST_LOG = "nexus=info,tauri=info"
+
+# SQLx offline mode (sử dụng cached metadata, không cần DB live lúc compile)
+SQLX_OFFLINE = "true"
+
+[term]
+color = "auto"
+
+# Tối ưu dependency ở level 2 ngay cả khi build dev — tăng tốc runtime
+# mà không làm chậm compile của code workspace
+[profile.dev.package."*"]
+opt-level = 2

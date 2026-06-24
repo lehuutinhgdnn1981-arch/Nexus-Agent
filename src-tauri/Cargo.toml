@@ -1,0 +1,77 @@
+# =============================================================================
+#  nexus-app — Tauri v2 binary crate (entrypoint)
+# =============================================================================
+#  Crate này KHÔNG chứa logic nghiệp vụ. Nhiệm vụ duy nhất:
+#    1. Khởi tạo Tokio runtime + tracing
+#    2. Khởi tạo AppState (db pool, tool registry, scheduler, browser manager)
+#    3. Đăng ký Tauri commands (từ nexus::commands)
+#    4. Launch Tauri WebView
+#
+#  Toàn bộ logic nằm trong lib crate `nexus` (path = "../src")
+# =============================================================================
+
+[package]
+name        = "nexus-app"
+version     = { workspace = true }
+edition     = { workspace = true }
+rust-version = { workspace = true }
+authors     = { workspace = true }
+license     = { workspace = true }
+description = "NEXUS desktop AI Agent — Tauri v2 binary"
+build       = "build.rs"
+
+# lib crate `nexus` ở workspace member `src/`
+[dependencies]
+nexus = { path = "../src" }
+
+# Tauri v2 + plugins
+tauri                  = { workspace = true, features = ["protocol-asset"] }
+tauri-plugin-shell     = { workspace = true }
+tauri-plugin-fs        = { workspace = true }
+tauri-plugin-dialog    = { workspace = true }
+tauri-plugin-os        = { workspace = true }
+tauri-plugin-process   = { workspace = true }
+tauri-plugin-store     = { workspace = true }
+
+# Async + concurrency
+tokio       = { workspace = true }
+tokio-util  = { workspace = true }
+dashmap     = { workspace = true }
+parking_lot = { workspace = true }
+once_cell   = { workspace = true }
+
+# Serialization
+serde       = { workspace = true }
+serde_json  = { workspace = true }
+
+# Error + logging
+thiserror   = { workspace = true }
+tracing     = { workspace = true }
+
+# Utils
+uuid        = { workspace = true }
+chrono      = { workspace = true }
+
+[build-dependencies]
+tauri-build = { workspace = true }
+
+# -----------------------------------------------------------------------------
+#  Features
+# -----------------------------------------------------------------------------
+[features]
+default        = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]   # production build dùng file://
+dev            = []                            # dev mode (vite dev server)
+
+# -----------------------------------------------------------------------------
+#  Lint kế thừa từ workspace
+# -----------------------------------------------------------------------------
+[lints]
+workspace = true
+
+# -----------------------------------------------------------------------------
+#  Binary targets
+# -----------------------------------------------------------------------------
+[[bin]]
+name = "nexus"
+path = "src/main.rs"

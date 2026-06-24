@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schema.tauri.app/config/2.0.0",
+  "identifier": "nexus-default",
+  "description": "Default capability for NEXUS — all main windows get these permissions",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "core:window:default",
+    "core:webview:default",
+    "core:app:default",
+    "core:event:default",
+    "core:resources:default",
+    "shell:allow-open",
+    "fs:default",
+    "fs:allow-read-text-file",
+    "fs:allow-write-text-file",
+    "fs:allow-create-dir",
+    "fs:allow-remove",
+    "fs:allow-rename",
+    "fs:allow-copy-file",
+    "fs:allow-exists",
+    "dialog:allow-open",
+    "dialog:allow-save",
+    "os:default",
+    "process:default"
+  ]
+}

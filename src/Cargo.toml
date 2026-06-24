@@ -1,0 +1,176 @@
+# =============================================================================
+#  nexus — Core library crate manifest
+# =============================================================================
+#  Lib crate chứa toàn bộ logic của NEXUS (agent, tools, llm, memory, scheduler,
+#  browser, database, security, config, commands). Có thể build/test độc lập
+#  mà không cần Tauri.
+#
+#  File này nằm ở `src/Cargo.toml`. Lib code ở `src/lib.rs` + các module con.
+# =============================================================================
+
+[package]
+name         = "nexus"
+version      = { workspace = true }
+edition      = { workspace = true }
+rust-version = { workspace = true }
+authors      = { workspace = true }
+license      = { workspace = true }
+description  = "NEXUS core library — agent engine, tools, LLM providers, memory, scheduler"
+
+[lib]
+name    = "nexus"
+path    = "lib.rs"
+doctest = true
+
+# -----------------------------------------------------------------------------
+#  Dependencies — toàn bộ dùng `.workspace = true` để pin version nhất quán
+# -----------------------------------------------------------------------------
+[dependencies]
+
+# === Async runtime ===
+tokio        = { workspace = true }
+tokio-util   = { workspace = true }
+tokio-stream = { workspace = true }
+futures      = { workspace = true }
+async-trait  = { workspace = true }
+
+# === Web / HTTP ===
+reqwest             = { workspace = true }
+reqwest-eventsource = { workspace = true }
+url                 = { workspace = true }
+
+# === Database ===
+sqlx = { workspace = true }
+
+# === Serialization ===
+serde       = { workspace = true }
+serde_json  = { workspace = true }
+toml        = { workspace = true }
+
+# === Error handling ===
+thiserror = { workspace = true }
+# anyhow declared as optional below (for examples feature)
+
+# === Logging / tracing ===
+tracing              = { workspace = true }
+tracing-subscriber   = { workspace = true }
+tracing-appender     = { workspace = true }
+
+# === Time / Date ===
+chrono = { workspace = true }
+
+# === UUID ===
+uuid = { workspace = true }
+
+# === Concurrency ===
+dashmap     = { workspace = true }
+parking_lot = { workspace = true }
+once_cell   = { workspace = true }
+
+# === Misc utils ===
+bytes     = { workspace = true }
+base64    = { workspace = true }
+hex       = { workspace = true }
+sha2      = { workspace = true }
+regex     = { workspace = true }
+glob      = { workspace = true }
+walkdir   = { workspace = true }
+which     = { workspace = true }
+dirs      = { workspace = true }
+directories = { workspace = true }
+humantime = { workspace = true }
+indexmap  = { workspace = true }
+
+# === Browser automation ===
+chromiumoxide = { workspace = true }
+
+# === Scheduler ===
+tokio-cron-scheduler = { workspace = true }
+
+# === TypeScript bindings export (cho frontend) ===
+ts-rs = { workspace = true }
+
+# === Tauri re-export (commands module dùng attribute #[tauri::command]) ===
+tauri = { workspace = true }
+
+# === Test-only deps (chỉ bật ở feature test-utils) ===
+[dependencies.mockall]
+workspace = true
+optional  = true
+
+[dependencies.tempfile]
+workspace = true
+optional  = true
+
+# === Examples deps (optional, bật qua feature `examples`) ===
+[dependencies.clap]
+workspace = true
+optional  = true
+
+[dependencies.anyhow]
+workspace = true
+optional  = true
+
+# -----------------------------------------------------------------------------
+#  Features
+# -----------------------------------------------------------------------------
+[features]
+default = []
+
+# Bật mock utilities để integration test dùng
+test-utils = ["dep:mockall", "dep:tempfile"]
+
+# Bật clap + anyhow cho examples
+examples = ["dep:clap", "dep:anyhow"]
+
+# Feature dự phòng cho Ollama embedding (hiện tại vẫn dùng được ngay)
+ollama-embed = []
+
+# -----------------------------------------------------------------------------
+#  Dev-dependencies — chỉ dùng cho unit test trong crate
+# -----------------------------------------------------------------------------
+[dev-dependencies]
+mockall           = { workspace = true }
+pretty_assertions = { workspace = true }
+proptest          = { workspace = true }
+tempfile          = { workspace = true }
+tokio             = { workspace = true, features = ["test-util", "macros", "rt-multi-thread"] }
+
+# (clap + anyhow declared as optional [dependencies.X] sections above)
+
+# -----------------------------------------------------------------------------
+#  Lint kế thừa workspace
+# -----------------------------------------------------------------------------
+[lints]
+workspace = true
+
+# -----------------------------------------------------------------------------
+#  Benchmarks (criterion, harness = false để criterion tự quản lý main)
+# -----------------------------------------------------------------------------
+[[bench]]
+name    = "cosine_search"
+harness = false
+path    = "../benches/cosine_search.rs"
+
+[[bench]]
+name    = "agent_loop"
+harness = false
+path    = "../benches/agent_loop.rs"
+
+# -----------------------------------------------------------------------------
+#  Examples — chạy bằng `cargo run --example <name> --features examples`
+# -----------------------------------------------------------------------------
+[[example]]
+name = "run_agent_cli"
+path = "../examples/run_agent_cli.rs"
+required-features = ["examples"]
+
+[[example]]
+name = "list_tools"
+path = "../examples/list_tools.rs"
+required-features = ["examples"]
+
+[[example]]
+name = "inspect_memory"
+path = "../examples/inspect_memory.rs"
+required-features = ["examples"]
