@@ -27,7 +27,10 @@ pub async fn execute(page: &Page, action: &PageAction) -> PageResult<serde_json:
             Ok(serde_json::json!({"clicked": selector}))
         }
         PageAction::Type { selector, text, delay_ms } => {
-            let js = format!("(function(){{var el=document.querySelector('{}');if(el){{el.value+='{}';el.dispatchEvent(new Event('input',{{bubbles:true}}));}}}})()", selector, text);
+            // Escape special chars in selector and text for safe JS injection
+            let escaped_selector = selector.replace('\\', "\\\\").replace('\'', "\\'");
+            let escaped_text = text.replace('\\', "\\\\").replace('\'', "\\'").replace('\n', "\\n").replace('\r', "\\r");
+            let js = format!("(function(){{var el=document.querySelector('{}');if(el){{el.value+='{}';el.dispatchEvent(new Event('input',{{bubbles:true}}));}}}})()", escaped_selector, escaped_text);
             let _ = page.evaluate(js.as_str()).await;
             if *delay_ms > 0 { tokio::time::sleep(Duration::from_millis(*delay_ms)).await; }
             Ok(serde_json::json!({"typed": text.len()}))

@@ -75,6 +75,6 @@ pub async fn read_file_for_chat(path: String) -> Result<FileContent, super::IpcE
         content,
         size,
         is_binary,
-        language,
+        language: language.to_string(),
     })
 }
