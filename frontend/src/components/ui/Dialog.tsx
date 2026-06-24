@@ -13,7 +13,7 @@ interface DialogProps {
 export function Dialog({ open, onClose, title, children, footer, className }: DialogProps) {
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
+    const onKey = (e: globalThis.KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', onKey);
@@ -24,24 +24,32 @@ export function Dialog({ open, onClose, title, children, footer, className }: Di
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 animate-fade-in"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-space-950/70 backdrop-blur-sm animate-fade-in"
       onClick={onClose}
     >
       <div
         className={clsx(
-          'w-full max-w-md rounded-lg border border-nexus-700 bg-nexus-900 shadow-2xl animate-slide-up',
+          'w-full max-w-md max-h-[85vh] rounded-2xl border border-space-700/50 bg-space-900/95 shadow-2xl animate-slide-up overflow-hidden flex flex-col backdrop-blur-xl',
           className,
         )}
         onClick={(e) => e.stopPropagation()}
       >
         {title && (
-          <div className="border-b border-nexus-800 px-5 py-3">
-            <h2 className="text-base font-semibold text-nexus-100">{title}</h2>
+          <div className="flex items-center justify-between border-b border-space-700/50 px-6 py-4 flex-shrink-0">
+            <h2 className="text-base font-semibold text-space-50">{title}</h2>
+            <button
+              onClick={onClose}
+              className="text-space-500 hover:text-space-200 transition-colors text-lg"
+            >
+              ✕
+            </button>
           </div>
         )}
-        <div className="px-5 py-4">{children}</div>
+        <div className="overflow-y-auto px-6 py-5 flex-1">
+          {children}
+        </div>
         {footer && (
-          <div className="flex justify-end gap-2 border-t border-nexus-800 px-5 py-3">
+          <div className="flex justify-end gap-2 border-t border-space-700/50 px-6 py-4 flex-shrink-0">
             {footer}
           </div>
         )}
