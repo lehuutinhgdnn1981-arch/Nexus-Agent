@@ -14,7 +14,7 @@
     "fs:default",
     "fs:allow-read-text-file",
     "fs:allow-write-text-file",
-    "fs:allow-create-dir",
+    "fs:allow-mkdir",
     "fs:allow-remove",
     "fs:allow-rename",
     "fs:allow-copy-file",

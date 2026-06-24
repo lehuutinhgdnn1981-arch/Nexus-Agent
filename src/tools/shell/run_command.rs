@@ -160,7 +160,7 @@ impl Tool for RunCommandTool {
             &ctx.pool,
             &log_id,
             status_str,
-            exit_code,
+            exit_code.map(|c| c as i64),
             Some(&stdout_final),
             Some(&stderr_final),
         ).await?;
@@ -205,7 +205,7 @@ impl RunCommandTool {
             command: command.to_string(),
             args: json!(args).to_string(),
             status: status.to_string(),
-            exit_code,
+            exit_code.map(|c| c as i64),
             stdout: stdout.map(String::from),
             stderr: stderr.map(String::from),
             started_at: now_ts(),

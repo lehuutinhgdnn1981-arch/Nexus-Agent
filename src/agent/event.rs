@@ -27,6 +27,7 @@ pub enum AgentEvent {
         run_id: String,
         call_id: String,
         tool: String,
+        #[ts(type = "any")]
         input: serde_json::Value,
     },
     /// Tool call hoàn thành.
@@ -62,6 +63,7 @@ pub enum AgentEvent {
         run_id: String,
         request_id: String,
         tool: String,
+        #[ts(type = "any")]
         input: serde_json::Value,
         permission: String,
     },
